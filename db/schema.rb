@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20170423025812) do
     t.integer  "platform_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["platform_id"], name: "index_apps_on_platform_id", using: :btree
   end
 
   create_table "invitations", force: :cascade do |t|
@@ -81,5 +80,4 @@ ActiveRecord::Schema.define(version: 20170423025812) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
-  add_foreign_key "apps", "platforms"
 end

@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include Pundit
 
+  ## Custom Error Response Handling ##
   rescue_from Pundit::NotAuthorizedError, with: :pundit_not_authorized
 
   def current_user

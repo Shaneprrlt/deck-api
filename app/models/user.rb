@@ -30,13 +30,14 @@ class User < ApplicationRecord
 
   validate :has_invitation
 
-  has_one :invitation
+  belongs_to :invitation
 
   private
   def set_first_and_last_name
     segments = self.name.split(' ')
-    self.first_name = segments.first
-    self.last_name = segments.last
+    self.name = self.name.titleize
+    self.first_name = segments.first.titleize
+    self.last_name = segments.last.titleize
   end
 
   def has_invitation
@@ -47,8 +48,10 @@ class User < ApplicationRecord
 
   def close_invitation
     inv = Invitation.find_by_email(self.email)
+    inv.update(accepted: true)
     self.update(invitation_id: inv.id)
-    inv.admin ? self.add_role(:admin) : self.add_role(:basic)
+    self.add_role(:basic)
+    self.add_role(:admin) if inv.admin
   end
 
 end

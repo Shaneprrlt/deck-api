@@ -18,7 +18,13 @@ Rails.application.routes.draw do
 
     ## Users ##
     post '/users/login', to: "users#login", as: :login
-    resources :users, only: [:index, :create, :update, :destroy], defaults: { format: :json }
+    resources :users, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
+
+    ## Platforms ##
+    resources :platforms, only: [:index], defaults: { format: :json }
+
+    ## Apps ##
+    resources :apps, only: [:index, :create, :show, :update], defaults: { format: :json }
 
   end
 end
