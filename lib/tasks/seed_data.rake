@@ -13,4 +13,13 @@ namespace :seed_data do
     ])
   end
 
+  ## Card Types ##
+  desc "Seeds Database with Default Card Types"
+  task card_types: :environment do
+    CardType.create([
+      { name: 'Feature Request' },
+      { name: 'Bug' }
+    ])
+  end
+
 end
