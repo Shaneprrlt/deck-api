@@ -1,6 +1,6 @@
 class CardsController < ApplicationController
-  before_action :authenticate, only: [:index, :create, :show, :update]
-  after_action :verify_authorized, only: [:update]
+  before_action :authenticate, only: [:index, :create, :show, :update, :destroy]
+  after_action :verify_authorized, only: [:update, :destroy]
 
   def index
     @cards = Card.includes(:user, :card_type, app: [:platform]).all
@@ -30,6 +30,23 @@ class CardsController < ApplicationController
         @card.clear_labels
         @card.labels << Label.where(id: labels_params)
         render 'show', status: :ok
+      else
+        render json: @card.errors.full_messages, status: :unprocessable_entity
+      end
+    else
+      render json: {
+        errors: true,
+        message: "Card not found."
+      }, status: :not_found
+    end
+  end
+  
+  def destroy
+    @card = Card.find(params[:id])
+    if @card
+      authorize @card
+      if @card.destroy
+        render json: {}, status: :no_content
       else
         render json: @card.errors.full_messages, status: :unprocessable_entity
       end

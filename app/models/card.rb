@@ -25,8 +25,8 @@ class Card < ApplicationRecord
   belongs_to :user
   belongs_to :card_type
   belongs_to :app
-  has_many :card_occurences
-  has_many :card_labels
+  has_many :card_occurences, dependent: :destroy
+  has_many :card_labels, dependent: :destroy
   has_many :labels, through: :card_labels
 
   enum state: {
