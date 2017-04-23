@@ -3,7 +3,7 @@ class AppsController < ApplicationController
 
   def index
     authorize App
-    @apps = App.includes(:platform).all
+    @apps = App.includes(:platform).where(removed: false)
     render 'index', status: :ok
   end
 
@@ -47,6 +47,13 @@ class AppsController < ApplicationController
     else
       render json: @app.errors.full_messages, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    authorize App
+    @app = App.find(params[:id])
+    @app.update(removed: true)
+    render json: {}, status: :no_content
   end
 
   private

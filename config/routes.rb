@@ -18,13 +18,14 @@ Rails.application.routes.draw do
 
     ## Users ##
     post '/users/login', to: "users#login", as: :login
+    put '/users/:id/update_role', to: "users#update_role", as: :user_update_role
     resources :users, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
     ## Platforms ##
     resources :platforms, only: [:index], defaults: { format: :json }
 
     ## Apps ##
-    resources :apps, only: [:index, :create, :show, :update], defaults: { format: :json }
+    resources :apps, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
     ## Card Types ##
     resources :card_types, only: [:index], defaults: { format: :json }

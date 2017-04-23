@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate, only: [:index]
+  before_action :authenticate, only: [:index, :update, :destroy]
+  after_action :verify_authorized, only: [:update, :destroy]
 
   def index
     @users = User.where(blocked: false).order(name: :asc)
@@ -9,9 +10,19 @@ class UsersController < ApplicationController
   def login
     @user = User.find_by_email(params[:email])
     if @user && @user.authenticate(params[:password])
-      render json: { access_token: JwtTokenIssuer.generate_token(@user.id) }, status: :ok
+      unless @user.blocked
+        render json: { access_token: JwtTokenIssuer.generate_token(@user.id) }, status: :ok
+      else
+        render json: {
+          errors: true,
+          message: "You have been blocked from this team."
+        }, status: :unauthorized
+      end
     else
-      render json: { errors: true }, status: :unauthorized
+      render json: {
+        errors: true,
+        message: "Invalid credentials."
+      }, status: :unauthorized
     end
   end
 
@@ -27,6 +38,23 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     render 'show', status: :ok
+  end
+
+  def update
+    @user = User.find(params[:id])
+    authorize @user
+    if @user.update(user_params)
+      render 'show', status: :ok
+    else
+      render json: @user.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    authorize User
+    @user = User.find(params[:id])
+    @user.update(blocked: true)
+    render json: {}, status: :no_content
   end
 
   private
