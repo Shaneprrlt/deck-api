@@ -32,5 +32,8 @@ Rails.application.routes.draw do
     ## Labels ##
     resources :labels, only: [:index, :create, :show], defaults: { format: :json }
 
+    ## Cards ##
+    resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
+
   end
 end

@@ -32,6 +32,8 @@ class User < ApplicationRecord
 
   belongs_to :invitation
 
+  has_many :cards
+
   private
   def set_first_and_last_name
     segments = self.name.split(' ')
