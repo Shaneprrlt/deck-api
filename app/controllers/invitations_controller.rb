@@ -1,12 +1,15 @@
 class InvitationsController < ApplicationController
-  before_action :authenticate, :admin_restricted
+  before_action :authenticate
+  after_action :verify_authorized, only: [:index, :create, :destroy, :remind]
 
   def index
+    authorize Invitation
     @invitations = Invitation.order(created_at: :asc)
     render 'index', show: :ok
   end
 
   def create
+    authorize Invitation
     @invitations = Invitation.create(invitation_params)
     if @invitations.present?
       render 'index', show: :ok
@@ -18,6 +21,7 @@ class InvitationsController < ApplicationController
   end
 
   def destroy
+    authorize Invitation
     @invitation = Invitation.find(params[:id])
     if @invitation.destroy
       render json: {}, status: :ok
@@ -29,7 +33,9 @@ class InvitationsController < ApplicationController
   end
 
   def remind
-    # todo:
+    authorize Invitation
+    @invitation = Invitation.find(params[:id])
+    ## todo:
   end
 
   private

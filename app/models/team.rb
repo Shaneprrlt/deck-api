@@ -15,7 +15,7 @@
 class Team < ApplicationRecord
 
   after_create :create_tenant, :create_invitation
-
+  
   validates :name, presence: true
   validates :subdomain, presence: true, uniqueness: true
   validates :email, presence: true

@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::Base
   include ActionController::HttpAuthentication::Token::ControllerMethods
+  include Pundit
+
+  rescue_from Pundit::NotAuthorizedError, with: :pundit_not_authorized
+
+  def current_user
+    @current_user ||= nil
+  end
 
   def authenticate
     unless @current_user = authenticate_with_http_token { |t,o| JwtTokenIssuer.user_from_token(t) }
@@ -12,15 +19,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def admin_restricted
-    unless @current_user.has_role?(:admin)
-      render json: {
-        error: true,
-        message: "You must have admin privileges to access this resource.",
-        code: 401,
-        status: 401
-      }, status: :unauthorized and return
-    end
+  def pundit_not_authorized
+    render json: {
+      error: true,
+      message: "You are not authorized to access this resource.",
+      code: 401,
+      status: 401
+    }, status: :unauthorized and return
   end
-
 end
