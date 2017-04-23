@@ -13,6 +13,8 @@ class App < ApplicationRecord
   resourcify
   belongs_to :platform
 
+  after_save :update_label
+
   def contributors
     applied_roles.map do |r|
       if r.name.downcase === "contributor"
@@ -27,6 +29,12 @@ class App < ApplicationRecord
     end
 
     self
+  end
+
+  private
+  def update_label
+    label = Label.where(app: self).first_or_create
+    label.update(title: self.name)
   end
 
 end
