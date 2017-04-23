@@ -18,6 +18,7 @@
 #
 
 class User < ApplicationRecord
+  rolify
   has_secure_password
 
   before_save :set_first_and_last_name
@@ -26,7 +27,6 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :name, presence: true
-  validates :invitation, presence: false
 
   validate :has_invitation
 
@@ -48,6 +48,7 @@ class User < ApplicationRecord
   def close_invitation
     inv = Invitation.find_by_email(self.email)
     self.update(invitation_id: inv.id)
+    inv.admin ? self.add_role(:admin) : self.add_role(:basic)
   end
 
 end

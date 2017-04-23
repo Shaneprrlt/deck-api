@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :invitations, only: [:index,:create,:destroy], defaults: { format: :json }
 
     ## Users ##
+    post '/users/login', to: "users#login", as: :login
     resources :users, only: [:index, :create, :update, :destroy], defaults: { format: :json }
 
   end

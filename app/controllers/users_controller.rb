@@ -1,8 +1,18 @@
 class UsersController < ApplicationController
+  before_action :authenticate, only: [:index]
 
   def index
     @users = User.where(blocked: false).order(name: :asc)
     render 'index', status: :ok
+  end
+
+  def login
+    @user = User.find_by_email(params[:email])
+    if @user && @user.authenticate(params[:password])
+      render json: { access_token: JwtTokenIssuer.generate_token(@user.id) }, status: :ok
+    else
+      render json: { errors: true }, status: :unauthorized
+    end
   end
 
   def create

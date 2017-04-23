@@ -1,4 +1,5 @@
 class InvitationsController < ApplicationController
+  before_action :authenticate, :admin_restricted
 
   def index
     @invitations = Invitation.order(created_at: :asc)
@@ -15,7 +16,7 @@ class InvitationsController < ApplicationController
       }, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
     @invitation = Invitation.find(params[:id])
     if @invitation.destroy
