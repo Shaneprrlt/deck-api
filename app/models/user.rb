@@ -27,12 +27,11 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :name, presence: true
-
   validate :has_invitation
 
-  belongs_to :invitation
-
+  belongs_to :invitation, optional: true
   has_many :cards
+  has_many :decks
 
   private
   def set_first_and_last_name

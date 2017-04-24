@@ -28,6 +28,8 @@ class Card < ApplicationRecord
   has_many :card_occurences, dependent: :destroy
   has_many :card_labels, dependent: :destroy
   has_many :labels, through: :card_labels
+  has_many :deck_cards, dependent: :destroy
+  has_many :decks, through: :deck_cards
 
   enum state: {
     created: 100,
@@ -65,6 +67,23 @@ class Card < ApplicationRecord
 
   def clear_labels
     card_labels.joins(:label).where("labels.app_id IS NULL").destroy_all
+    self
+  end
+
+  def apply_to_decks
+
+    # find decks this card is in but no longer may belong to
+    # based on removed labels and remove this card from them
+    decks = self.decks.joins(deck_labels: [:label]).where.not("labels.id IN (?)", self.labels.collect(&:id)).distinct
+    self.deck_cards.where(deck: decks).destroy_all
+
+    # find decks we should be in and add this card to them
+    decks = Deck.joins(deck_labels: [:label]).where.not(id: self.deck_cards.collect(&:deck_id)).where("labels.id IN (?)", self.labels.collect(&:id)).distinct
+
+    # Manually create join instances in order to boost
+    # performance (by executing in 1 query)
+    DeckCard.create( decks.map { |d| { deck: d, card: self } } )
+
   end
 
   private

@@ -36,5 +36,8 @@ Rails.application.routes.draw do
     ## Cards ##
     resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
+    ## Decks ##
+    resources :decks, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
+
   end
 end

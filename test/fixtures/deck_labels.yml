@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: deck_labels
+#
+#  id         :integer          not null, primary key
+#  deck_id    :integer
+#  label_id   :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  deck: one
+  label: one
+
+two:
+  deck: two
+  label: two

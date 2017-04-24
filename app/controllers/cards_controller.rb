@@ -11,6 +11,7 @@ class CardsController < ApplicationController
     @card = @current_user.cards.new(card_params)
     if @card.save
       @card.labels << Label.where(id: labels_params)
+      @card.apply_to_decks
       render 'show', status: :ok
     else
       render json: @card.errors.full_messages, status: :unprocessable_entity
@@ -27,8 +28,9 @@ class CardsController < ApplicationController
     if @card
       authorize @card
       if @card.update(card_params)
-        @card.clear_labels
+        @card.clear_labels.reload
         @card.labels << Label.where(id: labels_params)
+        @card.apply_to_decks
         render 'show', status: :ok
       else
         render json: @card.errors.full_messages, status: :unprocessable_entity
@@ -40,7 +42,7 @@ class CardsController < ApplicationController
       }, status: :not_found
     end
   end
-  
+
   def destroy
     @card = Card.find(params[:id])
     if @card
