@@ -5,12 +5,13 @@ class MessagesController < ApplicationController
   after_action :verify_authorized, only: [:update, :destroy]
 
   def index
-    @card.messages.order(created_at: :asc)
+    @messages = @card.messages.includes(:user).order(created_at: :asc)
     render 'index', status: :ok
   end
 
   def create
     @message = @card.messages.new(message_params)
+    @message.user_id = @current_user.id
     if @message.save
       render 'show', status: :ok
     else
