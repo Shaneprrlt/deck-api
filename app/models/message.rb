@@ -11,17 +11,26 @@
 #
 
 class Message < ApplicationRecord
-  after_create :notify_followers
+  after_create :follow_card, :notify_followers
 
   validates :body, presence: true, length: { minimum: 3, maximum: 5000 }
 
   belongs_to :user
   belongs_to :card
-  
+
   private
+  def follow_card
+    CardFollower.first_or_create(card: self.card, user: self.user)
+  end
+
   def notify_followers
-    # todo: send a notification to anybody
-    # who is following or receiving notifications
-    # for the associated card
+    self.card.followers.each do |user|
+      Notification.first_or_create(
+        user: user,
+        action: :created_message,
+        actor: self.user,
+        target: self
+      )
+    end
   end
 end

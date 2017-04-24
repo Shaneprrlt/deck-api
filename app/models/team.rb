@@ -15,10 +15,11 @@
 class Team < ApplicationRecord
 
   after_create :create_tenant, :create_invitation
-  
+
   validates :name, presence: true
   validates :subdomain, presence: true, uniqueness: true
   validates :email, presence: true
+  validate :valid_subdomain
 
   private
   def create_tenant
@@ -33,6 +34,12 @@ class Team < ApplicationRecord
       email: self.email,
       admin: true
     })
+  end
+
+  def valid_subdomain
+    if ['www','api','api-staging','s3'].exists?(self.subdomain)
+      errors.add(:subdomain, "invalid")
+    end
   end
 
 end

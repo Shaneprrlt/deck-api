@@ -1,7 +1,7 @@
 class SubdomainConstraint
   def self.matches?(request)
     segments = request.subdomain.split('.')
-    request.subdomain.present? && segments.length > 1 && segments.last != 'www'
+    request.subdomain.present? && segments.last != 'www'
   end
 end
 
@@ -39,6 +39,8 @@ Rails.application.routes.draw do
     ## Cards ##
     resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json } do
       put '/mark_occurence', to: "cards#mark_occurence", as: :mark_occurence
+      put '/follow', to: "cards#follow", as: :follow
+      put '/unfollow', to: "cards#unfollow", as: :unfollow
 
       ## Messages ##
       resources :messages, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }

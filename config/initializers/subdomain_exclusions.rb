@@ -1,1 +1,1 @@
-Apartment::Elevators::FirstSubdomain.excluded_subdomains = ['www','api','api-staging','s3']
+Apartment::Elevators::Subdomain.excluded_subdomains = ['www','api','api-staging','s3']

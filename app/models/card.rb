@@ -17,7 +17,7 @@
 class Card < ApplicationRecord
   include AASM
 
-  after_create :set_app_label, :set_uuid, :create_initial_occurence
+  after_create :set_app_label, :set_uuid, :create_initial_occurence, :add_default_followers
 
   validates :title, presence: true, length: { minimum: 10, maximum: 500 }
   validates :description, presence: true, length: { minimum: 20, maximum: 5000 }
@@ -31,6 +31,8 @@ class Card < ApplicationRecord
   has_many :deck_cards, dependent: :destroy
   has_many :decks, through: :deck_cards
   has_many :messages
+  has_many :card_followers, dependent: :destroy
+  has_many :followers, through: :card_followers, class_name: "User"
 
   enum state: {
     created: 100,
@@ -98,6 +100,12 @@ class Card < ApplicationRecord
 
   def create_initial_occurence
     self.card_occurences.create(user: self.user)
+  end
+
+  def add_default_followers
+    CardFollower.first_or_create(card: self, follower: self.user)
+    followers = self.contributors.map { |u| { card: self, follower: u } }
+    CardFollower.first_or_create(followers)
   end
 
 end

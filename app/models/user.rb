@@ -33,6 +33,15 @@ class User < ApplicationRecord
   has_many :cards
   has_many :decks
   has_many :notifications
+  has_many :card_followers, dependent: :destroy
+  has_many :cards_following, through: :card_followers, source: :card
+  has_many :messages
+
+  def reload_card_follows(app)
+    cards = Card.where(app: app)
+    card_followers = cards.map { |c| { card: c, user: self } }
+    CardFollower.first_or_create(card_followers)
+  end
 
   private
   def set_first_and_last_name

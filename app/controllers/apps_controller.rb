@@ -11,9 +11,11 @@ class AppsController < ApplicationController
     authorize App
     @app = App.new(app_params)
     if @app.save
+
       @developers = User.where(id: app_developers_params).map do |u|
         if u.has_role?(:developer)
           u.add_role(:contributor, @app)
+          u.reload_card_follows(@app)
         end
       end
 

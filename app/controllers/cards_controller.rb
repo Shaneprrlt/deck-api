@@ -1,5 +1,5 @@
 class CardsController < ApplicationController
-  before_action :authenticate, only: [:index, :create, :show, :update, :destroy, :mark_occurence]
+  before_action :authenticate, only: [:index, :create, :show, :update, :destroy, :mark_occurence, :follow, :unfollow]
   after_action :verify_authorized, only: [:update, :destroy]
 
   def index
@@ -54,6 +54,18 @@ class CardsController < ApplicationController
     else
       render json: occurence.errors.full_messages, status: :unprocessable_entity
     end
+  end
+
+  def follow
+    @card = Card.find(params[:card_id])
+    CardFollower.first_or_create(card: @card, user: @current_user)
+    render 'show', status: :ok
+  end
+
+  def unfollow
+    @card = Card.find(params[:card_id])
+    CardFollower.where(card: @card, user: @current_user).destroy_all
+    render 'show', status: :ok
   end
 
   private
