@@ -32,6 +32,7 @@ class User < ApplicationRecord
   belongs_to :invitation, optional: true
   has_many :cards
   has_many :decks
+  has_many :notifications
 
   private
   def set_first_and_last_name

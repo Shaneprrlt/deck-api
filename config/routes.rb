@@ -17,8 +17,8 @@ Rails.application.routes.draw do
     resources :invitations, only: [:index,:create,:destroy], defaults: { format: :json }
 
     ## Users ##
-    post '/users/login', to: "users#login", as: :login
-    put '/users/:id/update_role', to: "users#update_role", as: :user_update_role
+    post '/users/login', to: "users#login", as: :login, defaults: { format: :json }
+    put '/users/:id/update_role', to: "users#update_role", as: :user_update_role, defaults: { format: :json }
     resources :users, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
     ## Platforms ##
@@ -38,12 +38,19 @@ Rails.application.routes.draw do
     ## Cards ##
     resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json } do
       put '/mark_occurence', to: "cards#mark_occurence", as: :mark_occurence
-    
+
+      ## Messages ##
       resources :messages, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
     end
 
     ## Decks ##
     resources :decks, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
+
+    ## Notifications ##
+    put '/notifications/mark_all_as_read', to: "notifications#mark_all_as_read", defaults: { format: :json }
+    resources :notifications, only: [:index], defaults: { format: :json } do
+      put '/mark_as_read', to: "notifications#mark_as_read", as: :mark_as_read
+    end
 
   end
 end

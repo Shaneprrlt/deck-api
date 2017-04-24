@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424020653) do
+ActiveRecord::Schema.define(version: 20170424025122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,22 @@ ActiveRecord::Schema.define(version: 20170424020653) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "action"
+    t.string   "actor_type"
+    t.integer  "actor_id"
+    t.string   "target_type"
+    t.integer  "target_id"
+    t.boolean  "read",        default: false, null: false
+    t.string   "uuid"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["actor_type", "actor_id"], name: "index_notifications_on_actor_type_and_actor_id", using: :btree
+    t.index ["target_type", "target_id"], name: "index_notifications_on_target_type_and_target_id", using: :btree
+    t.index ["user_id"], name: "index_notifications_on_user_id", using: :btree
+  end
+
   create_table "platforms", force: :cascade do |t|
     t.string   "name"
     t.string   "icon"
@@ -188,4 +204,5 @@ ActiveRecord::Schema.define(version: 20170424020653) do
   add_foreign_key "labels", "apps"
   add_foreign_key "messages", "cards"
   add_foreign_key "messages", "users"
+  add_foreign_key "notifications", "users"
 end
