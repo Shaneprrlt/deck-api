@@ -26,6 +26,10 @@ json.cards do
 
     json.(card, :id, :title, :description, :state, :uuid, :occurences, :share_url, :created_at, :updated_at)
 
+    if @current_user
+      json.following @current_user.cards_following.exists?(card)
+    end
+
     json.user do
       json.(card.user, :id, :username, :email, :name, :first_name, :last_name, :phone, :timezone, :blocked)
 
