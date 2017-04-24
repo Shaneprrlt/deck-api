@@ -10,4 +10,6 @@
 #
 
 class CardType < ApplicationRecord
+  include Searchable
+
 end

@@ -10,5 +10,6 @@
 #
 
 class Platform < ApplicationRecord
+  include Searchable
 
 end

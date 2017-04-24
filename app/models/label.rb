@@ -10,6 +10,8 @@
 #
 
 class Label < ApplicationRecord
+  include SearchableTenanted
+
   belongs_to :app, optional: true
 
   before_save :titleize_title

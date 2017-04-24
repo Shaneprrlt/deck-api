@@ -15,7 +15,15 @@
 #
 
 class Card < ApplicationRecord
+  include SearchableTenanted
   include AASM
+  
+  settings index: { number_of_shards: 1 } do
+    mappings dynamic: 'false' do
+      indexes :title, analyzer: 'english'
+      indexes :description, analyzer: 'english'
+    end
+  end
 
   after_create :set_app_label, :set_uuid, :create_initial_occurence, :add_default_followers
 

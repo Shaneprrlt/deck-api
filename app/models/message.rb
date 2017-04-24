@@ -11,6 +11,14 @@
 #
 
 class Message < ApplicationRecord
+  include SearchableTenanted
+
+  settings index: { number_of_shards: 1 } do
+    mappings dynamic: 'false' do
+      indexes :body, analyzer: 'english'
+    end
+  end
+
   after_create :follow_card, :notify_followers
 
   validates :body, presence: true, length: { minimum: 3, maximum: 5000 }

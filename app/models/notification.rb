@@ -16,6 +16,8 @@
 #
 
 class Notification < ApplicationRecord
+  include SearchableTenanted
+
   before_create :set_uuid
   after_create :send_notification
 

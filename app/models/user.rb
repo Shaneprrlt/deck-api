@@ -18,6 +18,8 @@
 #
 
 class User < ApplicationRecord
+  include SearchableTenanted
+
   rolify
   has_secure_password
 

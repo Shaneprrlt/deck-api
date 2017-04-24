@@ -10,14 +10,15 @@
 #
 
 class Deck < ApplicationRecord
+  include SearchableTenanted
 
   validates :title, presence: true, length: { minimum: 5, maximum: 140 }
 
   belongs_to :user
-
+  
   has_many :deck_labels, dependent: :destroy
   has_many :labels, through: :deck_labels
-  
+
   has_many :deck_cards, dependent: :destroy
   has_many :cards, through: :deck_cards
 
