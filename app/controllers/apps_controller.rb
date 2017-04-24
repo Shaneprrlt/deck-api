@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-  before_action :authenticate, only: [:index, :create, :show, :update, :destroy]
+  before_action :authenticate, only: [:index, :create, :show, :update, :destroy, :cards]
 
   def index
     authorize App
@@ -54,6 +54,20 @@ class AppsController < ApplicationController
     @app = App.find(params[:id])
     @app.update(removed: true)
     render json: {}, status: :no_content
+  end
+
+  def cards
+    @app = App.find(params[:app_id])
+    if @app
+      offset = params[:page].present? && params[:page].to_i > 0 ? (params[:page].to_i - 1) * Settings.card_load_limit : 0
+      @cards = @app.cards.limit(Settings.card_load_limit).offset(offset).order(created_at: :desc)
+      render '/cards/index', status: :ok
+    else
+      render json: {
+        errors: true,
+        message: "App not found."
+      }, status: :not_found
+    end
   end
 
   private

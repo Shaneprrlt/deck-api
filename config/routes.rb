@@ -25,7 +25,9 @@ Rails.application.routes.draw do
     resources :platforms, only: [:index], defaults: { format: :json }
 
     ## Apps ##
-    resources :apps, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
+    resources :apps, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json } do
+      get '/cards', to: "apps#cards", as: :cards
+    end
 
     ## Card Types ##
     resources :card_types, only: [:index], defaults: { format: :json }

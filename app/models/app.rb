@@ -12,9 +12,11 @@
 
 class App < ApplicationRecord
   resourcify
-  belongs_to :platform
 
   after_save :update_label
+
+  belongs_to :platform
+  has_many :cards
 
   def contributors
     applied_roles.map do |r|
