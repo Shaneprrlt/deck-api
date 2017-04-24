@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424014806) do
+ActiveRecord::Schema.define(version: 20170424020653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,16 @@ ActiveRecord::Schema.define(version: 20170424014806) do
     t.index ["app_id"], name: "index_labels_on_app_id", using: :btree
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "card_id"
+    t.string   "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_messages_on_card_id", using: :btree
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
+  end
+
   create_table "platforms", force: :cascade do |t|
     t.string   "name"
     t.string   "icon"
@@ -176,4 +186,6 @@ ActiveRecord::Schema.define(version: 20170424014806) do
   add_foreign_key "deck_labels", "labels"
   add_foreign_key "decks", "users"
   add_foreign_key "labels", "apps"
+  add_foreign_key "messages", "cards"
+  add_foreign_key "messages", "users"
 end

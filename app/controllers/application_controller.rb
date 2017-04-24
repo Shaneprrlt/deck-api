@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   ## Custom Error Response Handling ##
   rescue_from Pundit::NotAuthorizedError, with: :pundit_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :generic_not_found
 
   def current_user
     @current_user ||= nil
@@ -27,5 +28,14 @@ class ApplicationController < ActionController::Base
       code: 401,
       status: 401
     }, status: :unauthorized and return
+  end
+
+  def generic_not_found
+    render json: {
+      error: true,
+      message: "Resource not found.",
+      code: 404,
+      status: 404
+    }, status: :not_found and return
   end
 end

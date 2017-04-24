@@ -10,6 +10,16 @@
 #
 
 class CardOccurence < ApplicationRecord
+
+  after_create :notify_contributors
+
   belongs_to :user
   belongs_to :card
+
+  private
+  def notify_contributors
+    # todo: let the contributors know another
+    # instance of this card has occured
+  end
+
 end

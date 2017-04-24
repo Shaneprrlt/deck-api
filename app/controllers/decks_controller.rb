@@ -22,20 +22,13 @@ class DecksController < ApplicationController
 
   def show
     @deck = @current_user.decks.find(params[:id])
-    if @deck
-      @offset = params[:page].present? && params[:page].to_i > 0 ? (params[:page].to_i - 1) * Settings.card_load_limit : 0
-      render 'show', status: :ok
-    else
-      render json: {
-        errors: true,
-        message: "Deck not found."
-      }, status: :not_found
-    end
+    @offset = params[:page].present? && params[:page].to_i > 0 ? (params[:page].to_i - 1) * Settings.card_load_limit : 0
+    render 'show', status: :ok
   end
 
   def update
     @deck = @current_user.decks.find(params[:id])
-    if @deck && @deck.update(deck_params)
+    if @deck.update(deck_params)
       @deck.clear_labels.reload
       @deck.labels << Label.where(id: labels_params)
       @deck.add_cards_to_deck
@@ -47,17 +40,10 @@ class DecksController < ApplicationController
 
   def destroy
     @deck = @current_user.decks.find(params[:id])
-    if @deck
-      if @deck.destroy
-        render json: {}, status: :no_content
-      else
-        render json: @deck.errors.full_messages, status: :unprocessable_entity
-      end
+    if @deck.destroy
+      render json: {}, status: :no_content
     else
-      render json: {
-        errors: true,
-        message: "Deck not found."
-      }, status: :not_found
+      render json: @deck.errors.full_messages, status: :unprocessable_entity
     end
   end
 

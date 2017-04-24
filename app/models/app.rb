@@ -30,7 +30,6 @@ class App < ApplicationRecord
     contributors.each do |u|
       u.remove_role(:contributor, self)
     end
-
     self
   end
 

@@ -36,7 +36,11 @@ Rails.application.routes.draw do
     resources :labels, only: [:index, :create, :show], defaults: { format: :json }
 
     ## Cards ##
-    resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
+    resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json } do
+      put '/mark_occurence', to: "cards#mark_occurence", as: :mark_occurence
+    
+      resources :messages, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
+    end
 
     ## Decks ##
     resources :decks, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }

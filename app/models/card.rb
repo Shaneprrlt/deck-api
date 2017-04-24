@@ -30,6 +30,7 @@ class Card < ApplicationRecord
   has_many :labels, through: :card_labels
   has_many :deck_cards, dependent: :destroy
   has_many :decks, through: :deck_cards
+  has_many :messages
 
   enum state: {
     created: 100,
