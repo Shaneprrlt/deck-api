@@ -15,11 +15,16 @@ class CardOccurence < ApplicationRecord
 
   belongs_to :user
   belongs_to :card
-
+  
   private
   def notify_contributors
-    # todo: let the contributors know another
-    # instance of this card has occured
+    self.card.contributors.each do |user|
+      Notification.create(
+        user: user,
+        action: :created_card_occurence,
+        actor: self.user,
+        target: self.card
+      )
+    end
   end
-
 end

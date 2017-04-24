@@ -16,11 +16,16 @@ class DeckCard < ApplicationRecord
   belongs_to :card
 
   validates :card, uniqueness: { scope: :deck }
-
+  
   private
   def notify_user
-    # a new card has been added to your deck!
-    # only notify user if they haven't already
-    # received a notification about this card
+    unless self.deck.user.id === self.card.user.id
+      Notification.first_or_create(
+        user: self.deck.user,
+        action: :created_card,
+        actor: self.card.user,
+        target: self.card
+      )
+    end
   end
 end

@@ -17,7 +17,7 @@ class Message < ApplicationRecord
 
   belongs_to :user
   belongs_to :card
-
+  
   private
   def notify_followers
     # todo: send a notification to anybody
