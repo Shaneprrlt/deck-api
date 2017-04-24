@@ -1,7 +1,7 @@
 require 'apartment/elevators/first_subdomain'
 
 Apartment.configure do |config|
-  config.excluded_models = ['Team','Platform','CardType']
+  config.excluded_models = ['Team','Platform','CardType','Settings']
   config.tenant_names = lambda{ Team.pluck(:subdomain) }
 end
 

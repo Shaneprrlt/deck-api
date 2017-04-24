@@ -23,6 +23,7 @@ class DecksController < ApplicationController
   def show
     @deck = @current_user.decks.find(params[:id])
     if @deck
+      @offset = params[:page].present? && params[:page].to_i > 0 ? (params[:page].to_i - 1) * Settings.card_load_limit : 0
       render 'show', status: :ok
     else
       render json: {
