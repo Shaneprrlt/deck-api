@@ -12,6 +12,12 @@
 class Label < ApplicationRecord
   include SearchableTenanted
 
+  settings index: { number_of_shards: 1 } do
+    mappings dynamic: 'false' do
+      indexes :title, analyzer: 'english'
+    end
+  end
+
   belongs_to :app, optional: true
 
   before_save :titleize_title

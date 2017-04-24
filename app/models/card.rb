@@ -17,7 +17,7 @@
 class Card < ApplicationRecord
   include SearchableTenanted
   include AASM
-  
+
   settings index: { number_of_shards: 1 } do
     mappings dynamic: 'false' do
       indexes :title, analyzer: 'english'

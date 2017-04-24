@@ -1,10 +1,23 @@
 class UsersController < ApplicationController
-  before_action :authenticate, only: [:me, :index, :update, :destroy]
+  before_action :authenticate, only: [:me, :search, :index,:update, :destroy]
   after_action :verify_authorized, only: [:update, :destroy]
 
   def me
     @user = @current_user
     render 'show', status: :ok
+  end
+
+  def search
+    query = params[:q].strip if params[:q].present?
+    if query.present? && query.length > 0
+      @users = User.search(query).records.to_a
+      render 'index', status: :ok
+    else
+      render json: {
+        errors: true,
+        message: "Please enter a search query."
+      }, status: :bad_request
+    end
   end
 
   def index

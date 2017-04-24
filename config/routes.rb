@@ -18,9 +18,9 @@ Rails.application.routes.draw do
 
     ## Users ##
     get '/me', to: "users#me", as: :me, defaults: { format: :json }
+    get '/users/search', to: "users#search", as: :users_search, defaults: { format: :json }
     post '/users/login', to: "users#login", as: :login, defaults: { format: :json }
     put '/users/:id/update_role', to: "users#update_role", as: :user_update_role, defaults: { format: :json }
-    resources :users, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
     ## Platforms ##
     resources :platforms, only: [:index], defaults: { format: :json }
@@ -34,8 +34,9 @@ Rails.application.routes.draw do
     resources :card_types, only: [:index], defaults: { format: :json }
 
     ## Labels ##
+    get '/labels/search', to: "labels#search", as: :labels_se
     resources :labels, only: [:index, :create, :show], defaults: { format: :json }
-
+    
     ## Cards ##
     resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json } do
       put '/mark_occurence', to: "cards#mark_occurence", as: :mark_occurence
@@ -54,6 +55,9 @@ Rails.application.routes.draw do
     resources :notifications, only: [:index], defaults: { format: :json } do
       put '/mark_as_read', to: "notifications#mark_as_read", as: :mark_as_read
     end
+
+    ## Search ##
+    get '/search', to: "search#index", as: :search, defaults: { format: :json }
 
   end
 end
