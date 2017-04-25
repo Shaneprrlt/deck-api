@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     get '/users/search', to: "users#search", as: :users_search, defaults: { format: :json }
     post '/users/login', to: "users#login", as: :login, defaults: { format: :json }
     put '/users/:id/update_role', to: "users#update_role", as: :user_update_role, defaults: { format: :json }
+    resources :users, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
     ## Preferences ##
     resource :preference, only: [:show, :update], defaults: { format: :json }
