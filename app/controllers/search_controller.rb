@@ -5,13 +5,11 @@ class SearchController < ApplicationController
     query = params[:q].strip
     if query.present? && query.length > 0
 
-      ## Elasticsearch Query ##
-      results = Elasticsearch::Model
-        .search(query, [Platform, CardType, User, Deck, Card, Message, Notification, Label])
-        .records.to_a
-      
-      render json: results.to_json, status: :ok
+      @search_results = Elasticsearch::Model
+        .search(query, [Platform, CardType, User, Deck, Card, Message, Label])
+        .records.each_with_hit
 
+      render 'index', status: :ok
     else
       render json: {
         errors: true,

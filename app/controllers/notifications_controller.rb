@@ -1,5 +1,18 @@
 class NotificationsController < ApplicationController
-  before_action :authenticate, only: [:index, :mark_as_read, :mark_all_as_read]
+  before_action :authenticate, only: [:search, :index, :mark_as_read, :mark_all_as_read]
+
+  def search
+    query = params[:q].strip if params[:q].present?
+    if query.present? && query.length > 0
+      @notifications = Notification.search(query).records.to_a
+      render 'index', status: :ok
+    else
+      render json: {
+        errors: true,
+        message: "Please enter a search query."
+      }, status: :bad_request
+    end
+  end
 
   def index
     @notifications = @current_user.notifications.order(created_at: :desc)

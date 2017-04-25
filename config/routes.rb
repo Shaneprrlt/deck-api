@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     ## Labels ##
     get '/labels/search', to: "labels#search", as: :labels_se
     resources :labels, only: [:index, :create, :show], defaults: { format: :json }
-    
+
     ## Cards ##
     resources :cards, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json } do
       put '/mark_occurence', to: "cards#mark_occurence", as: :mark_occurence
@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     resources :decks, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
     ## Notifications ##
+    get '/notifications/search', to: "notifications#search", defaults: { format: :json }
     put '/notifications/mark_all_as_read', to: "notifications#mark_all_as_read", defaults: { format: :json }
     resources :notifications, only: [:index], defaults: { format: :json } do
       put '/mark_as_read', to: "notifications#mark_as_read", as: :mark_as_read

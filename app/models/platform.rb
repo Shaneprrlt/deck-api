@@ -12,4 +12,10 @@
 class Platform < ApplicationRecord
   include Searchable
 
+  settings index: { number_of_shards: 1 } do
+    mappings dynamic: 'false' do
+      indexes :name, analyzer: 'english'
+    end
+  end
+
 end

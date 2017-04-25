@@ -4,12 +4,6 @@ namespace :elasticsearch do
 
   task import_data_for_all_tenants: :environment do
 
-    ## Untenanted Models ##
-    Apartment::Tenant.switch!
-
-    Platform.import force: true
-    CardType.import force: true
-
     ## Tenanted Models ##
     Team.pluck(:subdomain).each do |subdomain|
       Apartment::Tenant.switch!(subdomain)
@@ -21,6 +15,12 @@ namespace :elasticsearch do
       Card.import force: true
       Deck.import force: true
     end
+
+    ## Untenanted Models ##
+    Apartment::Tenant.switch!
+
+    Platform.import
+    CardType.import
 
   end
 
