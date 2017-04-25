@@ -23,7 +23,7 @@ class InvitationsController < ApplicationController
   def destroy
     authorize Invitation
     @invitation = Invitation.find(params[:id])
-    if !@invitation.admin && @invitation.destroy
+    if @invitation.destroy
       render json: {}, status: :ok
     else
       render json: {

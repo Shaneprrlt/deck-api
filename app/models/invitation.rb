@@ -12,4 +12,12 @@
 #
 
 class Invitation < ApplicationRecord
+  before_destroy :protect_admin_invitation
+
+  private
+  def protect_admin_invitation
+    if self.admin
+      errors.add(:admin, "cannot destroy admin invitation")
+    end
+  end
 end
