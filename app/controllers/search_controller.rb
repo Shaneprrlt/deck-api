@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
   before_action :authenticate, only: [:index]
+  before_action :set_page, only: [:index]
 
   def index
     query = params[:q].strip
@@ -7,6 +8,7 @@ class SearchController < ApplicationController
 
       @search_results = Elasticsearch::Model
         .search(query, [Platform, CardType, User, Deck, Card, Message, Label])
+        .page(@page)
         .records.each_with_hit
 
       render 'index', status: :ok

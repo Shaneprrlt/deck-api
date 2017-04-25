@@ -2,10 +2,11 @@ class MessagesController < ApplicationController
 
   before_action :authenticate, only: [:index, :create, :show, :update, :destroy]
   before_action :set_card, only: [:index, :create, :show, :update, :destroy]
+  before_action :set_page, only: [:index]
   after_action :verify_authorized, only: [:update, :destroy]
 
   def index
-    @messages = @card.messages.includes(:user).order(created_at: :asc)
+    @messages = @card.messages.includes(:user).order(created_at: :asc).page(@page)
     render 'index', status: :ok
   end
 

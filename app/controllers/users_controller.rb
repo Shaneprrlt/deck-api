@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate, only: [:me, :search, :index,:update, :destroy]
+  before_action :set_page, only: [:search, :index]
   after_action :verify_authorized, only: [:update, :destroy]
 
   def me
@@ -10,7 +11,7 @@ class UsersController < ApplicationController
   def search
     query = params[:q].strip if params[:q].present?
     if query.present? && query.length > 0
-      @users = User.search(query).records.to_a
+      @users = User.search(query).records.page(@page).to_a
       render 'index', status: :ok
     else
       render json: {
@@ -21,7 +22,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where(blocked: false).order(name: :asc)
+    @users = User.where(blocked: false).order(name: :asc).page(@page)
     render 'index', status: :ok
   end
 

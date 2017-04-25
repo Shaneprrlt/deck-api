@@ -1,11 +1,12 @@
 class DecksController < ApplicationController
   before_action :authenticate, only: [:index, :create, :show, :update, :destroy]
+  before_action :set_page, only: [:index, :show]
 
   def index
     # todo: implement service to build users
     # deck payload based upon role, decks, query params (like just unreads, all cards, etc)
     # @decks = DeckService.build_index(@current_user, params)
-    @decks = @current_user.decks.all
+    @decks = @current_user.decks.all.page(@page)
     render 'index', status: :ok
   end
 
@@ -22,7 +23,6 @@ class DecksController < ApplicationController
 
   def show
     @deck = @current_user.decks.find(params[:id])
-    @offset = params[:page].present? && params[:page].to_i > 0 ? (params[:page].to_i - 1) * Settings.card_load_limit : 0
     render 'show', status: :ok
   end
 

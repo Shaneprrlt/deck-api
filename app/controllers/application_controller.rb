@@ -38,4 +38,9 @@ class ApplicationController < ActionController::Base
       status: 404
     }, status: :not_found and return
   end
+
+  def set_page
+    @page = params[:page].present? && params[:page].to_i > 0 ? params[:page] : 1
+  end
+
 end

@@ -22,7 +22,7 @@ end
 
 json.cards do
 
-  json.array! @deck.cards.limit(Settings.card_load_limit).offset(@offset).order(created_at: :desc) do |card|
+  json.array! @deck.cards.order(created_at: :desc).page(@page) do |card|
 
     json.(card, :id, :title, :description, :state, :uuid, :occurences, :share_url, :created_at, :updated_at)
 

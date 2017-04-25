@@ -18,6 +18,8 @@ class Label < ApplicationRecord
     end
   end
 
+  self.per_page = 50
+
   belongs_to :app, optional: true
 
   before_save :titleize_title

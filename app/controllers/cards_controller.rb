@@ -1,9 +1,10 @@
 class CardsController < ApplicationController
   before_action :authenticate, only: [:index, :create, :show, :update, :destroy, :mark_occurence, :follow, :unfollow]
+  before_action :set_page, only: [:index]
   after_action :verify_authorized, only: [:update, :destroy]
 
   def index
-    @cards = Card.includes(:user, :card_type, app: [:platform]).all
+    @cards = Card.includes(:user, :card_type, app: [:platform]).all.page(@page)
     render 'index', status: :ok
   end
 
