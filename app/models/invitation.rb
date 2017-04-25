@@ -12,12 +12,20 @@
 #
 
 class Invitation < ApplicationRecord
-  before_destroy :protect_admin_invitation
+  before_destroy :protect_admin_invitation, :ensure_unaccepted
+
+  has_one :user
 
   private
   def protect_admin_invitation
     if self.admin
       errors.add(:admin, "cannot destroy admin invitation")
+    end
+  end
+
+  def ensure_unaccepted
+    if self.accepted
+      errors.add(:accepted, "cannot destroy accepted invitation")
     end
   end
 end

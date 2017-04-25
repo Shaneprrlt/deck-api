@@ -1,6 +1,6 @@
 class PreferencesController < ApplicationController
   before_action :authenticate, only: [:show, :update]
-
+  
   def show
     @user = @current_user
     render '/users/me', status: :ok
@@ -26,5 +26,4 @@ class PreferencesController < ApplicationController
         app_is_created: [:push_notification, :email]
       )
   end
-
 end
