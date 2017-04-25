@@ -14,6 +14,10 @@
 # - sendgrid vs ses (will come down to pricing honestly, but investigate added value from sendgrid)
 # - online status (possibly redis involved?)
 # - onesignal (needs port of app to iOS and Android, but would be sick!!!)
+# Pusher:
+# - Private User Channel (For Sending Push Notifications, In-App Notifications, etc)
+# - Protected User Channel (Team Channel [For App Online/Away Status])
+# - Per Card Protected User Channel (For Real Time Chat/Collaboration in Each Card View)
 
 # messages
 # - rich text (markdown???)
