@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     post '/users/login', to: "users#login", as: :login, defaults: { format: :json }
     put '/users/:id/update_role', to: "users#update_role", as: :user_update_role, defaults: { format: :json }
 
+    ## Preferences ##
+    resource :preference, only: [:show, :update], defaults: { format: :json }
+
     ## Platforms ##
     resources :platforms, only: [:index], defaults: { format: :json }
 

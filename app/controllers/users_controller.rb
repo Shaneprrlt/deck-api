@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def me
     @user = @current_user
-    render 'show', status: :ok
+    render 'me', status: :ok
   end
 
   def search

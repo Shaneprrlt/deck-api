@@ -24,7 +24,7 @@ class User < ApplicationRecord
   has_secure_password
 
   before_save :set_first_and_last_name
-  after_create :close_invitation
+  after_create :close_invitation, :create_preference
 
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
@@ -32,6 +32,7 @@ class User < ApplicationRecord
   validate :has_invitation
 
   belongs_to :invitation, optional: true
+  has_one :preference
   has_many :cards
   has_many :decks
   has_many :notifications
@@ -65,6 +66,10 @@ class User < ApplicationRecord
     self.update(invitation_id: inv.id)
     self.add_role(:basic)
     self.add_role(:admin) if inv.admin
+  end
+
+  def create_preference
+    self.build_preference.save
   end
 
 end
