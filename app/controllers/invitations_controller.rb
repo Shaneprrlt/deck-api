@@ -4,7 +4,7 @@ class InvitationsController < ApplicationController
 
   def index
     authorize Invitation
-    @invitations = Invitation.order(created_at: :asc)
+    @invitations = Invitation.where.not(admin: true).order(created_at: :asc)
     render 'index', show: :ok
   end
 
@@ -23,7 +23,7 @@ class InvitationsController < ApplicationController
   def destroy
     authorize Invitation
     @invitation = Invitation.find(params[:id])
-    if @invitation.destroy
+    if !@invitation.admin && @invitation.destroy
       render json: {}, status: :ok
     else
       render json: {
