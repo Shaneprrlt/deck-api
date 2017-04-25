@@ -3,7 +3,6 @@
 # Table name: users
 #
 #  id              :integer          not null, primary key
-#  invitation_id   :integer
 #  email           :string
 #  username        :string
 #  name            :string
@@ -13,8 +12,10 @@
 #  timezone        :string
 #  phone           :string
 #  blocked         :boolean          default(FALSE), not null
+#  invitation_id   :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  channel         :string
 #
 
 class User < ApplicationRecord
@@ -24,7 +25,7 @@ class User < ApplicationRecord
   has_secure_password
 
   before_save :set_first_and_last_name
-  after_create :close_invitation, :create_preference
+  after_create :close_invitation, :create_preference, :set_channel
 
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
@@ -70,6 +71,11 @@ class User < ApplicationRecord
 
   def create_preference
     self.build_preference.save
+  end
+
+  def set_channel
+    uuid = SecureRandom.uuid
+    self.update(channel: "private-#{Apartment::Tenant.current.downcase}-user_#{uuid}")
   end
 
 end

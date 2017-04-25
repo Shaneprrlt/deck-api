@@ -12,6 +12,7 @@
 #  uuid         :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  channel      :string
 #
 
 class Card < ApplicationRecord
@@ -25,7 +26,7 @@ class Card < ApplicationRecord
     end
   end
 
-  after_create :set_app_label, :set_uuid, :create_initial_occurence, :add_default_followers
+  after_create :set_app_label, :set_uuid, :create_initial_occurence, :add_default_followers, :set_channel
 
   validates :title, presence: true, length: { minimum: 10, maximum: 500 }
   validates :description, presence: true, length: { minimum: 20, maximum: 5000 }
@@ -114,6 +115,10 @@ class Card < ApplicationRecord
     CardFollower.first_or_create(card: self, follower: self.user)
     followers = self.contributors.map { |u| { card: self, follower: u } }
     CardFollower.first_or_create(followers)
+  end
+
+  def set_channel
+    self.update(channel: "presence-#{Apartment::Tenant.current.downcase}-card_#{self.uuid}")
   end
 
 end

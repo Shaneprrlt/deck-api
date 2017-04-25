@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425014248) do
+ActiveRecord::Schema.define(version: 20170425163235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20170425014248) do
     t.string   "uuid"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "channel"
     t.index ["app_id"], name: "index_cards_on_app_id", using: :btree
     t.index ["user_id"], name: "index_cards_on_user_id", using: :btree
   end
@@ -184,6 +185,7 @@ ActiveRecord::Schema.define(version: 20170425014248) do
     t.boolean  "blocked",    default: false, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "channel"
   end
 
   create_table "users", force: :cascade do |t|
@@ -199,6 +201,7 @@ ActiveRecord::Schema.define(version: 20170425014248) do
     t.integer  "invitation_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.string   "channel"
     t.index ["invitation_id"], name: "index_users_on_invitation_id", using: :btree
   end
 

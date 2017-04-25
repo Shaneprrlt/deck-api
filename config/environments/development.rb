@@ -52,6 +52,12 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  ## JWT HASH AND SECRET ##
   ENV['JWT_HMAC_SECRET'] = 'hash_1f393d00-e12f-45c6-a1b3-134572f61334'
   ENV['JWT_ALG'] = 'HS256'
+
+  ## Pusher Development ##
+  Pusher.app_id = "330864"
+  Pusher.key = "8974d9b5c8e1271f6102"
+  Pusher.secret = "f711551b6cfb2b1ce1b0"
 end

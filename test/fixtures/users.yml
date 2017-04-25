@@ -3,7 +3,6 @@
 # Table name: users
 #
 #  id              :integer          not null, primary key
-#  invitation_id   :integer
 #  email           :string
 #  username        :string
 #  name            :string
@@ -13,8 +12,10 @@
 #  timezone        :string
 #  phone           :string
 #  blocked         :boolean          default(FALSE), not null
+#  invitation_id   :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  channel         :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
