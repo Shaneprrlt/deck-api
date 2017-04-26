@@ -8,7 +8,7 @@ end
 Rails.application.routes.draw do
 
   ## Teams ##
-  resources :teams, only: [:create, :show, :update, :destroy], defaults: { format: :json }
+  resources :teams, only: [:index, :create, :show, :update, :destroy], defaults: { format: :json }
 
   constraints SubdomainConstraint do
 

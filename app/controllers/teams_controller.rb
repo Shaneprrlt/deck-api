@@ -1,4 +1,10 @@
 class TeamsController < ApplicationController
+  before_action :authenticate, only: [:index]
+
+  def index
+    @team = @current_user.team
+    render 'show', status: :ok
+  end
 
   def create
     @team = Team.new(team_params)

@@ -41,6 +41,11 @@ class User < ApplicationRecord
   has_many :cards_following, through: :card_followers, source: :card
   has_many :messages
 
+  def team
+    subdomain = Apartment::Tenant.current.downcase
+    Team.find_by_subdomain(subdomain)
+  end
+
   def reload_card_follows(app)
     cards = Card.where(app: app)
     card_followers = cards.map { |c| { card: c, user: self } }
