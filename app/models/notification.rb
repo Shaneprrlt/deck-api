@@ -38,9 +38,7 @@ class Notification < ApplicationRecord
   end
 
   def send_notification
-    # todo: add notification settings,
-    # and send to the user based on their
-    # notifications settings
+    Notifier.send_notification(self.user, self)
   end
 
   private
