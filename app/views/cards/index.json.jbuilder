@@ -1,12 +1,12 @@
 json.array! @cards do |card|
-  json.(card, :id, :title, :description, :state, :uuid, :occurences, :share_url, :created_at, :updated_at)
+  json.(card, :id, :title, :description, :state, :uuid, :occurences, :share_url, :channel, :created_at, :updated_at)
 
   if @current_user
     json.following @current_user.cards_following.exists?(card)
   end
 
   json.user do
-    json.(card.user, :id, :username, :email, :name, :first_name, :last_name, :phone, :timezone, :blocked)
+    json.(card.user, :id, :username, :email, :name, :first_name, :last_name, :phone, :channel, :timezone, :blocked)
 
     json.roles card.user.roles do |role|
       json.(role, :id, :name, :resource_type, :resource_id, :created_at, :updated_at)
@@ -25,7 +25,7 @@ json.array! @cards do |card|
     end
 
     json.developers card.app.contributors do |user|
-      json.(user, :id, :username, :email, :name, :first_name, :last_name, :phone, :timezone, :blocked)
+      json.(user, :id, :username, :email, :name, :first_name, :last_name, :phone, :channel, :timezone, :blocked)
     end
   end
 
@@ -43,7 +43,7 @@ json.array! @cards do |card|
           end
 
           json.developers _label.app.contributors do |user|
-            json.(user, :id, :username, :email, :name, :first_name, :last_name, :phone, :timezone, :blocked)
+            json.(user, :id, :username, :email, :name, :first_name, :last_name, :phone, :channel, :timezone, :blocked)
           end
         end
       end

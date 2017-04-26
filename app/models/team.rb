@@ -38,7 +38,7 @@ class Team < ApplicationRecord
   end
 
   def valid_subdomain
-    if ['www','api','api-staging','s3','support','help','blog','contact','about'].exists?(self.subdomain)
+    if ['www','api','api-staging','s3','support','help','blog','contact','about'].include?(self.subdomain)
       errors.add(:subdomain, "invalid")
     end
   end

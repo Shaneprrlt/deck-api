@@ -21,7 +21,7 @@ json.array! @search_results do |record, hit|
   ## User ##
   if hit._type === "user"
     json.user do
-      json.(record, :id, :username, :email, :name, :first_name, :last_name, :phone, :timezone, :blocked)
+      json.(record, :id, :username, :email, :name, :first_name, :last_name, :phone, :channel, :timezone, :blocked)
     end
   end
 
@@ -35,7 +35,7 @@ json.array! @search_results do |record, hit|
   ## Card ##
   if hit._type === "card"
     json.card do
-      json.(record, :id, :title, :description, :state, :uuid, :occurences, :share_url, :created_at, :updated_at)
+      json.(record, :id, :title, :description, :state, :uuid, :occurences, :share_url, :channel, :created_at, :updated_at)
     end
   end
 

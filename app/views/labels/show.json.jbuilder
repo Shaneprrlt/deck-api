@@ -9,7 +9,7 @@ if @label.app
     end
 
     json.developers @label.app.contributors do |user|
-      json.(user, :id, :username, :email, :name, :first_name, :last_name, :phone, :timezone, :blocked)
+      json.(user, :id, :username, :email, :name, :first_name, :last_name, :phone, :channel, :timezone, :blocked)
     end
   end
 end
