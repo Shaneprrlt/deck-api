@@ -15,7 +15,7 @@
 
 class Team < ApplicationRecord
 
-  after_create :create_tenant, :create_invitation, :set_channel
+  after_create :create_tenant, :create_invitation, :set_channel, :send_email
 
   validates :name, presence: true
   validates :subdomain, presence: true, uniqueness: true
@@ -46,6 +46,10 @@ class Team < ApplicationRecord
   def set_channel
     uuid = SecureRandom.uuid
     self.update(channel: "presence-#{self.subdomain.downcase}-team_#{uuid}")
+  end
+
+  def send_email
+    CreatedTeamMailer.prepare(self).deliver_later
   end
 
 end

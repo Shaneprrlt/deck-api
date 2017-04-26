@@ -25,7 +25,7 @@ class User < ApplicationRecord
   has_secure_password
 
   before_save :set_first_and_last_name
-  after_create :close_invitation, :create_preference, :set_channel
+  after_create :close_invitation, :create_preference, :set_channel, :send_welcome_email
 
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
@@ -81,6 +81,10 @@ class User < ApplicationRecord
   def set_channel
     uuid = SecureRandom.uuid
     self.update(channel: "private-#{Apartment::Tenant.current.downcase}-user_#{uuid}")
+  end
+
+  def send_welcome_email
+    WelcomeMailer.prepare(self).deliver_later
   end
 
 end

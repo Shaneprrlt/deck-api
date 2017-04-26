@@ -22,6 +22,7 @@ class Notifier
     ## If Email, Fire Notification Mailer ##
     if preferences[:email]
       ## todo: send email
+      # send_email(user, notification)
     end
 
     ## Push to Clients ##

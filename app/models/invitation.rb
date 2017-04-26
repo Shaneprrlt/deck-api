@@ -12,11 +12,16 @@
 #
 
 class Invitation < ApplicationRecord
+  after_create :send_email
   before_destroy :protect_admin_invitation, :ensure_unaccepted
 
   has_one :user
 
   private
+  def send_email
+    InvitationMailer.prepare(self).deliver_later
+  end
+
   def protect_admin_invitation
     if self.admin
       errors.add(:admin, "cannot destroy admin invitation")
