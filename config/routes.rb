@@ -64,5 +64,9 @@ Rails.application.routes.draw do
     ## Search ##
     get '/search', to: "search#index", as: :search, defaults: { format: :json }
 
+    ## Pusher ##
+    post '/pusher/private_auth', to: "pusher#private_auth", as: :pusher_private_auth, defaults: { format: :json }
+    post '/pusher/presence_auth', to: "pusher#presence_auth", as: :pusher_presence_auth, defaults: { format: :json }
+    
   end
 end
