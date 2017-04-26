@@ -17,7 +17,7 @@ class Preference < ApplicationRecord
 
   ## App Settings ##
   store_attributes :app do
-    
+
   end
 
   ## Notifications Settings ##
