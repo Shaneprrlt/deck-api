@@ -1,6 +1,7 @@
 # config/app.yml for rails-settings-cached
 defaults: &defaults
   card_load_limit: 20
+  new_message_event: 'new_message'
 
 development:
   <<: *defaults

@@ -31,6 +31,10 @@ class Message < ApplicationRecord
     CardFollower.first_or_create(card: self.card, user: self.user)
   end
 
+  def push_to_clients
+    Harbinger.send_message(card, self)
+  end
+
   def notify_followers
     self.card.followers.each do |user|
       Notification.first_or_create(
