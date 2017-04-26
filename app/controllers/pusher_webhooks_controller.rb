@@ -1,2 +1,0 @@
-class PusherWebhooksController < ApplicationController
-end
