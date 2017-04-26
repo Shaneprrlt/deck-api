@@ -19,7 +19,7 @@ class Message < ApplicationRecord
     end
   end
 
-  after_create :follow_card, :notify_followers
+  after_create :follow_card, :send_message, :notify_followers
 
   validates :body, presence: true, length: { minimum: 3, maximum: 5000 }
 
@@ -31,7 +31,7 @@ class Message < ApplicationRecord
     CardFollower.first_or_create(card: self.card, user: self.user)
   end
 
-  def push_to_clients
+  def send_message
     Harbinger.send_message(card, self)
   end
 
