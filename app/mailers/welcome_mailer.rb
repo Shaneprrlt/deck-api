@@ -1,6 +1,6 @@
 class WelcomeMailer < ApplicationMailer
 
-  def prepare(user)
+  def welcome(user)
   end
 
 end

@@ -2,6 +2,7 @@
 defaults: &defaults
   card_load_limit: 20
   new_message_event: 'new_message'
+  default_from: 'shane@deckapp.io'
 
 development:
   <<: *defaults
