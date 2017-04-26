@@ -49,6 +49,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    analytics-ruby (2.2.2)
+      commander (~> 4.4)
     annotate_models (0.1.1)
     apartment (1.2.0)
       activerecord (>= 3.1.2, < 6.0)
@@ -71,6 +73,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    commander (4.4.3)
+      highline (~> 1.7.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     descendants_tracker (0.0.4)
@@ -92,6 +96,7 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     hashie (3.5.5)
+    highline (1.7.8)
     httpclient (2.8.3)
     i18n (0.8.1)
     ice_nine (0.11.2)
@@ -229,6 +234,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  analytics-ruby
   annotate_models
   apartment
   bcrypt (~> 3.1.7)
