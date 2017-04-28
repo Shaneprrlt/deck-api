@@ -6,8 +6,9 @@ class SubdomainConstraint
 end
 
 Rails.application.routes.draw do
-  
+
   ## Teams ##
+  get '/teams/query_record', to: "teams#query_record", as: :teams_query_record, defaults: { format: :json }
   resources :teams, only: [:index, :create, :show], defaults: { format: :json }
 
   constraints SubdomainConstraint do
