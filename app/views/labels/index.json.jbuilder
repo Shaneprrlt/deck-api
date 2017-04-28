@@ -1,4 +1,4 @@
-json.array! @labels do |_label|
+json.labels @labels do |_label|
 
   json.(_label, :id, :title, :created_at, :updated_at)
 

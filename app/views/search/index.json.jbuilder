@@ -1,4 +1,4 @@
-json.array! @search_results do |record, hit|
+json.search_results @search_results do |record, hit|
 
   json.id SecureRandom.uuid
   json.score hit._score

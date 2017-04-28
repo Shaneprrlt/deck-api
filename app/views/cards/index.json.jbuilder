@@ -1,4 +1,4 @@
-json.array! @cards do |card|
+json.cards @cards do |card|
   json.(card, :id, :title, :description, :state, :uuid, :occurences, :share_url, :channel, :created_at, :updated_at)
 
   if @current_user

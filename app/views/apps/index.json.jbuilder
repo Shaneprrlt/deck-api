@@ -1,4 +1,4 @@
-json.array! @apps do |app|
+json.apps @apps do |app|
   json.(app, :id, :name, :created_at, :updated_at)
   json.platform do
     json.(app.platform, :id, :name, :icon, :created_at, :updated_at)

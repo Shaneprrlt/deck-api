@@ -1,4 +1,4 @@
-json.array! @users do |user|
+json.users @users do |user|
   json.(user, :id, :username, :email, :name, :first_name, :last_name, :phone, :channel, :timezone, :blocked)
 
   json.roles user.roles do |role|

@@ -1,4 +1,4 @@
-json.array! @decks do |deck|
+json.decks @decks do |deck|
   json.(deck, :id, :title, :created_at, :updated_at)
 
   json.labels do
