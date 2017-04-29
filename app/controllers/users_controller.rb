@@ -27,7 +27,8 @@ class UsersController < ApplicationController
   end
 
   def login
-    @user = User.find_by_email(params[:email])
+    email = params[:email].present? ? params[:email] : (params[:username].present? ? params[:username] : nil)
+    @user = User.find_by_email(email)
     if @user && @user.authenticate(params[:password])
       unless @user.blocked
         render json: { access_token: JwtTokenIssuer.generate_token(@user.id) }, status: :ok
