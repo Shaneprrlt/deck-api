@@ -55,6 +55,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'sidekiq'
 gem 'apartment'
+gem 'apartment-sidekiq'
 gem 'rack-cors', require: 'rack/cors'
 gem 'jwt'
 gem 'annotate_models'
