@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     resources :card_types, only: [:index], defaults: { format: :json }
 
     ## Labels ##
-    get '/labels/search', to: "labels#search", as: :labels_se
+    get '/labels/search', to: "labels#search", as: :labels_search, defaults: { format: :json }
     resources :labels, only: [:index, :create, :show], defaults: { format: :json }
 
     ## Cards ##
