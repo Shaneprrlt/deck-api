@@ -22,7 +22,7 @@ class Label < ApplicationRecord
 
   belongs_to :app, optional: true
 
-  before_save :titleize_title
+  before_validation :titleize_title
 
   validates :title, presence: true, uniqueness: true
 
