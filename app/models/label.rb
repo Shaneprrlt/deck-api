@@ -28,7 +28,7 @@ class Label < ApplicationRecord
 
   private
   def titleize_title
-    self.title = self.title.titleize
+    self.title = self.title.titleize if self.title.present?
   end
 
 end
