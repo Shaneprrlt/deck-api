@@ -12,4 +12,6 @@
 class CardFollower < ApplicationRecord
   belongs_to :card
   belongs_to :user
+
+  validates_presence_of :card_id, scope: :user_id
 end

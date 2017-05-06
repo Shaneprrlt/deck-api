@@ -26,7 +26,8 @@ class Card < ApplicationRecord
     end
   end
 
-  after_create :set_app_label, :set_uuid, :create_initial_occurence, :add_default_followers, :set_channel
+  before_create :set_uuid, :set_channel
+  after_create :set_app_label, :create_initial_occurence, :add_default_followers, :set_channel, :send_created_notification
 
   validates :title, presence: true, length: { minimum: 10, maximum: 500 }
   validates :description, presence: true, length: { minimum: 20, maximum: 5000 }
@@ -41,7 +42,7 @@ class Card < ApplicationRecord
   has_many :decks, through: :deck_cards
   has_many :messages
   has_many :card_followers, dependent: :destroy
-  has_many :followers, through: :card_followers, class_name: "User"
+  has_many :followers, through: :card_followers, source: :user
 
   enum state: {
     created: 100,
@@ -99,12 +100,16 @@ class Card < ApplicationRecord
   end
 
   private
-  def set_app_label
-    self.labels << Label.where(app: self.app).first
+  def set_uuid
+    self.uuid = SecureRandom.uuid
   end
 
-  def set_uuid
-    self.update(uuid: SecureRandom.uuid)
+  def set_channel
+    self.channel = "presence-#{Apartment::Tenant.current.downcase}-card_#{self.uuid}"
+  end
+
+  def set_app_label
+    self.labels << Label.where(app: self.app).first
   end
 
   def create_initial_occurence
@@ -112,13 +117,20 @@ class Card < ApplicationRecord
   end
 
   def add_default_followers
-    CardFollower.first_or_create(card: self, follower: self.user)
-    followers = self.contributors.map { |u| { card: self, follower: u } }
-    CardFollower.first_or_create(followers)
+    CardFollower.create(card: self, user: self.user)
+    self.contributors.each { |u| CardFollower.create(card: self, user: u) }
   end
 
-  def set_channel
-    self.update(channel: "presence-#{Apartment::Tenant.current.downcase}-card_#{self.uuid}")
+  def send_created_notification
+    notifications = self.followers.map do |u|
+      {
+        user: u,
+        action: :created_card,
+        actor: self.user,
+        target: self
+      }
+    end
+    Notification.create(notifications)
   end
 
 end

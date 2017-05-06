@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :teams, only: [:index, :create, :show], defaults: { format: :json }
 
   constraints SubdomainConstraint do
-
+    
     ## Invitations ##
     put '/invitations/:id/remind', to: "invitations#remind", as: :invitation_remind
     resources :invitations, only: [:index,:create,:destroy], defaults: { format: :json }

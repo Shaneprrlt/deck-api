@@ -15,16 +15,19 @@ class CardOccurence < ApplicationRecord
 
   belongs_to :user
   belongs_to :card
-  
+
   private
+
   def notify_contributors
-    self.card.contributors.each do |user|
-      Notification.create(
-        user: user,
-        action: :created_card_occurence,
-        actor: self.user,
-        target: self.card
-      )
+    if self.card.occurences > 1
+      self.card.followers.each do |user|
+        Notification.create(
+          user: user,
+          action: :created_card_occurence,
+          actor: self.user,
+          target: self.card
+        )
+      end
     end
   end
 end
