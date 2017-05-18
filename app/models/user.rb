@@ -84,7 +84,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email
-    WelcomeMailer.prepare(self).deliver_later
+    # WelcomeMailer.prepare(self).deliver_later
   end
 
 end

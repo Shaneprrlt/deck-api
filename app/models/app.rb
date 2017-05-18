@@ -41,7 +41,7 @@ class App < ApplicationRecord
   end
 
   def notify_developers
-    User.with_any_roles(:developer).each do |user|
+    User.with_any_role(:developer).each do |user|
       Notification.first_or_create(
         user: user,
         action: :app_created,
