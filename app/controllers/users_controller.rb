@@ -11,7 +11,14 @@ class UsersController < ApplicationController
   def search
     query = params[:q].strip if params[:q].present?
     if query.present? && query.length > 0
-      @users = User.search(query).records.page(@page).to_a
+
+      role_scope = params[:rs].strip if params[:rs].present?
+      if role_scope.present? && role_scope.length > 0
+        @users = User.search(query).records.joins(:roles).where("roles.name IN (?)", [role_scope])
+      else
+        @users = User.search(query).records.page(@page).to_a
+      end
+
       render 'index', status: :ok
     else
       render json: {
@@ -25,7 +32,7 @@ class UsersController < ApplicationController
     @users = User.where(blocked: false).order(name: :asc).page(@page)
     render 'index', status: :ok
   end
-
+  
   def login
     email = params[:email].present? ? params[:email] : (params[:username].present? ? params[:username] : nil)
     @user = User.find_by_email(email)
