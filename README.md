@@ -1,4 +1,5 @@
 # README
+API for deck core, see repo on profile for the ember-electron project.
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
